@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F1 Historical Analytics</title>
+  <script>
+    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/dashboard') {
+      window.location.replace('/dashboard/');
+    }
+  </script>
+  
+  <style>
+    :root {
+      --bg-primary: #060709;
+      --bg-secondary: #0c0e13;
+      --bg-card: rgba(14, 17, 24, 0.85);
+      --bg-card-hover: rgba(22, 27, 38, 0.95);
+      --f1-red: #e10600;
+      --f1-red-glow: rgba(225, 6, 0, 0.35);
+      --f1-gold: #ffdf00;
+      --f1-cyan: #00f0ff;
+      --text-primary: #ffffff;
+      --text-secondary: #9da3b0;
+      --text-muted: #5c6270;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(255, 255, 255, 0.2);
+      --font-racing: 'Barlow Condensed', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-body: 'Barlow', sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .dash-header {
+      background: rgba(8, 10, 14, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-emblem {
+      width: 36px;
+      height: 36px;
+      background: #000;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 4px;
+    }
+
+    .brand-emblem-img {
+      width: 24px;
+      height: 18px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-emblem svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--f1-red);
+    }
+
+    .brand-title {
+      font-family: var(--font-racing);
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      color: var(--text-primary);
+      font-family: var(--font-racing);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background: var(--f1-red);
+      border-color: var(--f1-red);
+      transform: translateX(-2px);
+    }
+
+    /* Main Container */
+    .dash-main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem 2rem;
+    }
+
+    .dash-hero {
+      margin-bottom: 2.5rem;
+    }
+
+    .dash-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--f1-red);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+
+    .dash-heading {
+      font-family: var(--font-racing);
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .dash-subtext {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 680px;
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .kpi-val {
+      font-family: var(--font-racing);
+      font-size: 2.75rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .kpi-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    /* Content Layout */
+    .dash-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (max-width: 1024px) {
+      .dash-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .dash-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2rem;
+    }
+
+    .box-title {
+      font-family: var(--font-racing);
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .box-title span.tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--f1-gold);
+    }
+
+    /* Driver Table */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.95rem;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .driver-rank {
+      font-family: var(--font-racing);
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--f1-gold);
+    }
+
+    .driver-name {
+      font-family: var(--font-racing);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .driver-nat {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-left: 0.35rem;
+    }
+
+    .stat-badge {
+      font-family: var(--font-racing);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* Constructor Cards */
+    .team-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .team-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+
+    .team-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .team-name {
+      font-family: var(--font-racing);
+      font-size: 1.25rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .team-sub {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .team-stats {
+      text-align: right;
+    }
+
+    .team-titles {
+      font-family: var(--font-racing);
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--f1-red);
+    }
+
+    .team-wins {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="dash-header">
+    <a href="/" class="brand-wrap">
+      <div class="brand-emblem" title="Formula 1">
+        <svg viewBox="0 0 120 30" class="f1-brand-logo" aria-label="Formula 1 Logo">
+          <path d="M101.086812,30 L101.711812,30 L101.711812,27.106875 L101.722437,27.106875 L102.761812,30 L103.302437,30 L104.341812,27.106875 L104.352437,27.106875 L104.352437,30 L104.977437,30 L104.977437,26.25125 L104.063687,26.25125 L103.055562,29.18625 L103.044937,29.18625 L102.011187,26.25125 L101.086812,26.25125 L101.086812,30 Z M97.6274375,26.818125 L98.8136875,26.818125 L98.8136875,30 L99.4699375,30 L99.4699375,26.818125 L100.661812,26.818125 L100.661812,26.25125 L97.6274375,26.25125 L97.6274375,26.818125 Z M89.9999375,30 L119.999937,0 L101.943687,0 L71.9443125,30 L89.9999375,30 Z M85.6986875,13.065 L49.3818125,13.065 C38.3136875,13.065 36.3768125,13.651875 31.6361875,18.3925 C27.2024375,22.82625 20.0005625,30 20.0005625,30 L35.7324375,30 L39.4855625,26.246875 C41.9530625,23.779375 43.2255625,23.52375 48.4068125,23.52375 L75.2405625,23.52375 L85.6986875,13.065 Z M31.1518125,16.253125 C27.8774375,19.3425 20.7530625,26.263125 16.9130625,30 L-6.25e-05,30 C-6.25e-05,30 13.5524375,16.486875 21.0849375,9.0725 C28.8455625,1.685 32.7143125,0 46.9486875,0 L98.7643125,0 L87.5449375,11.21875 L48.0011875,11.21875 C37.9993125,11.21875 35.7518125,11.911875 31.1518125,16.253125 Z" fill="#e10600"/>
+        </svg>
+      </div>
+      <span class="brand-title">F1 HISTORICAL ANALYTICS</span>
+    </a>
+
+    <a href="/" class="back-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+      </svg>
+      <span>&larr; BACK TO CINEMATIC JOURNEY</span>
+    </a>
+  </header>
+
+  <main class="dash-main">
+    <div class="dash-hero">
+      <span class="dash-badge">75 SEASONS OF WORLD CHAMPIONSHIP DATA &bull; 1950 &ndash; PRESENT</span>
+      <h1 class="dash-heading">HISTORICAL DATA PLATFORM</h1>
+      <p class="dash-subtext">
+        Every lap, every driver, every race, and every circuit. Interactive telemetry, all-time record leaderboards, and technical milestones.
+      </p>
+    </div>
+
+    <!-- KPI Highlights -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-val" style="color: var(--f1-red);">1,125+</span>
+        <span class="kpi-label">Grands Prix Contested</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-val" style="color: var(--f1-gold);">777</span>
+        <span class="kpi-label">Drivers on the Grid</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-val" style="color: var(--f1-cyan);">34</span>
+        <span class="kpi-label">World Champions</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-val">77</span>
+        <span class="kpi-label">Global Circuit Tracks</span>
+      </div>
+    </div>
+
+    <!-- Two Column Layout: Driver Leaderboard & Constructor Dominance -->
+    <div class="dash-layout">
+      <!-- Left: All-Time Driver Wins Leaderboard -->
+      <div class="dash-box">
+        <div class="box-title">
+          <span>ALL-TIME DRIVER WINS &amp; CHAMPIONSHIPS</span>
+          <span class="tag">TOP 10 F1 LEGENDS</span>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>RANK</th>
+                <th>DRIVER</th>
+                <th>ERA / YEARS</th>
+                <th>TITLES</th>
+                <th>WINS</th>
+                <th>PODIUMS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="driver-rank">01</td>
+                <td><span class="driver-name">Lewis Hamilton</span><span class="driver-nat">GBR</span></td>
+                <td>2007&ndash;Present</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">7</span></td>
+                <td><span class="stat-badge">105</span></td>
+                <td>201</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">02</td>
+                <td><span class="driver-name">Michael Schumacher</span><span class="driver-nat">GER</span></td>
+                <td>1991&ndash;2012</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">7</span></td>
+                <td><span class="stat-badge">91</span></td>
+                <td>155</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">03</td>
+                <td><span class="driver-name">Max Verstappen</span><span class="driver-nat">NED</span></td>
+                <td>2015&ndash;Present</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">4</span></td>
+                <td><span class="stat-badge">63</span></td>
+                <td>111</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">04</td>
+                <td><span class="driver-name">Sebastian Vettel</span><span class="driver-nat">GER</span></td>
+                <td>2007&ndash;2022</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">4</span></td>
+                <td><span class="stat-badge">53</span></td>
+                <td>122</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">05</td>
+                <td><span class="driver-name">Alain Prost</span><span class="driver-nat">FRA</span></td>
+                <td>1980&ndash;1993</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">4</span></td>
+                <td><span class="stat-badge">51</span></td>
+                <td>106</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">06</td>
+                <td><span class="driver-name">Ayrton Senna</span><span class="driver-nat">BRA</span></td>
+                <td>1984&ndash;1994</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">3</span></td>
+                <td><span class="stat-badge">41</span></td>
+                <td>80</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">07</td>
+                <td><span class="driver-name">Fernando Alonso</span><span class="driver-nat">ESP</span></td>
+                <td>2001&ndash;Present</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">2</span></td>
+                <td><span class="stat-badge">32</span></td>
+                <td>106</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">08</td>
+                <td><span class="driver-name">Nigel Mansell</span><span class="driver-nat">GBR</span></td>
+                <td>1980&ndash;1995</td>
+                <td><span class="stat-badge">1</span></td>
+                <td><span class="stat-badge">31</span></td>
+                <td>59</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">09</td>
+                <td><span class="driver-name">Jackie Stewart</span><span class="driver-nat">GBR</span></td>
+                <td>1965&ndash;1973</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">3</span></td>
+                <td><span class="stat-badge">27</span></td>
+                <td>43</td>
+              </tr>
+              <tr>
+                <td class="driver-rank">10</td>
+                <td><span class="driver-name">Juan Manuel Fangio</span><span class="driver-nat">ARG</span></td>
+                <td>1950&ndash;1958</td>
+                <td><span class="stat-badge" style="color: var(--f1-gold);">5</span></td>
+                <td><span class="stat-badge">24</span></td>
+                <td>35</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right: Constructor Championship Records -->
+      <div class="dash-box">
+        <div class="box-title">
+          <span>CONSTRUCTOR TITLES</span>
+          <span class="tag">MARQUE RECORDS</span>
+        </div>
+
+        <div class="team-list">
+          <div class="team-item">
+            <div>
+              <div class="team-name" style="color: #ff2800;">Scuderia Ferrari</div>
+              <div class="team-sub">1950 &ndash; Present &bull; Italy</div>
+            </div>
+            <div class="team-stats">
+              <div class="team-titles">16 TITLES</div>
+              <div class="team-wins">243+ Race Wins</div>
+            </div>
+          </div>
+
+          <div class="team-item">
+            <div>
+              <div class="team-name" style="color: #00a0dd;">Williams Racing</div>
+              <div class="team-sub">1977 &ndash; Present &bull; UK</div>
+            </div>
+            <div class="team-stats">
+              <div class="team-titles">9 TITLES</div>
+              <div class="team-wins">114 Race Wins</div>
+            </div>
+          </div>
+
+          <div class="team-item">
+            <div>
+              <div class="team-name" style="color: #ff8700;">McLaren Racing</div>
+              <div class="team-sub">1966 &ndash; Present &bull; UK</div>
+            </div>
+            <div class="team-stats">
+              <div class="team-titles">8 TITLES</div>
+              <div class="team-wins">188 Race Wins</div>
+            </div>
+          </div>
+
+          <div class="team-item">
+            <div>
+              <div class="team-name" style="color: #00d2be;">Mercedes-AMG</div>
+              <div class="team-sub">1954&ndash;55, 2010 &ndash; Present &bull; GER</div>
+            </div>
+            <div class="team-stats">
+              <div class="team-titles">8 TITLES</div>
+              <div class="team-wins">128 Race Wins</div>
+            </div>
+          </div>
+
+          <div class="team-item">
+            <div>
+              <div class="team-name" style="color: #0600ef;">Red Bull Racing</div>
+              <div class="team-sub">2005 &ndash; Present &bull; AUT</div>
+            </div>
+            <div class="team-stats">
+              <div class="team-titles">6 TITLES</div>
+              <div class="team-wins">120 Race Wins</div>
+            </div>
+          </div>
+
+          <div class="team-item">
+            <div>
+              <div class="team-name" style="color: #ffd700;">Team Lotus</div>
+              <div class="team-sub">1958 &ndash; 1994 &bull; UK</div>
+            </div>
+            <div class="team-stats">
+              <div class="team-titles">7 TITLES</div>
+              <div class="team-wins">79 Race Wins</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>

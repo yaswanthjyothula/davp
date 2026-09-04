@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F1 Historical Analytics — Cinematic Journey Through Formula 1 History</title>
+  <meta name="description" content="Explore the drivers, races, circuits and stories behind Formula 1 history through 571 high-precision cinematic frames and interactive historical data analytics.">
+  <meta name="theme-color" content="#060709">
+
+  <link rel="stylesheet" href="style.css?v=25">
+</head>
+<body>
+
+
+
+  <!-- ========================================================================
+       CANVAS VIEWPORT (Fixed Fullscreen Scroller)
+       ======================================================================== -->
+  <div id="canvas-viewport">
+    <canvas id="frame-canvas" width="1920" height="1080"></canvas>
+    <div class="canvas-vignette"></div>
+    <div class="canvas-scanlines"></div>
+  </div>
+
+  <!-- ========================================================================
+       SITE HEADER NAVIGATION
+       ======================================================================== -->
+  <header id="site-header">
+    <a href="#hero" class="header-brand" id="nav-brand-link">
+      <div class="brand-emblem" title="Formula 1">
+        <svg viewBox="0 0 120 30" class="f1-brand-logo" aria-label="Formula 1 Logo">
+          <path d="M101.086812,30 L101.711812,30 L101.711812,27.106875 L101.722437,27.106875 L102.761812,30 L103.302437,30 L104.341812,27.106875 L104.352437,27.106875 L104.352437,30 L104.977437,30 L104.977437,26.25125 L104.063687,26.25125 L103.055562,29.18625 L103.044937,29.18625 L102.011187,26.25125 L101.086812,26.25125 L101.086812,30 Z M97.6274375,26.818125 L98.8136875,26.818125 L98.8136875,30 L99.4699375,30 L99.4699375,26.818125 L100.661812,26.818125 L100.661812,26.25125 L97.6274375,26.25125 L97.6274375,26.818125 Z M89.9999375,30 L119.999937,0 L101.943687,0 L71.9443125,30 L89.9999375,30 Z M85.6986875,13.065 L49.3818125,13.065 C38.3136875,13.065 36.3768125,13.651875 31.6361875,18.3925 C27.2024375,22.82625 20.0005625,30 20.0005625,30 L35.7324375,30 L39.4855625,26.246875 C41.9530625,23.779375 43.2255625,23.52375 48.4068125,23.52375 L75.2405625,23.52375 L85.6986875,13.065 Z M31.1518125,16.253125 C27.8774375,19.3425 20.7530625,26.263125 16.9130625,30 L-6.25e-05,30 C-6.25e-05,30 13.5524375,16.486875 21.0849375,9.0725 C28.8455625,1.685 32.7143125,0 46.9486875,0 L98.7643125,0 L87.5449375,11.21875 L48.0011875,11.21875 C37.9993125,11.21875 35.7518125,11.911875 31.1518125,16.253125 Z" fill="#e10600"/>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <span class="brand-name">Formula 1 history</span>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <!-- Prominent DASHBOARD Nav Button -->
+      <a href="/dashboard" class="nav-dashboard-btn" id="nav-dashboard-link">
+        <span>DASHBOARD</span>
+        <svg viewBox="0 0 24 24">
+          <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42 5.43 5.43H5v2z"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       SCROLL TRACK & SCROLLYTELLING OVERLAY (Cinematic F1 Journey)
+       SPEED -> HISTORY -> DRIVERS -> RACES -> CIRCUITS -> TEAMS -> LEGENDS -> DATA -> DASHBOARD
+       ======================================================================== -->
+  <main id="scroll-track">
+    <div class="story-sections-container">
+
+      <!-- ====================================================================
+           01 — HERO SECTION (Frames 0 - 50)
+           ==================================================================== -->
+      <section class="story-section align-right active" id="hero" data-start-frame="0" data-end-frame="50">
+        <div class="hero-card">
+          <h1 class="hero-main-title">75 YEARS OF VELOCITY, DECODED.</h1>
+          <p class="hero-subtitle">
+            Explore the iconic machines, legendary tracks, and historic Grand Prix battles from 1950 to today
+          </p>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           02 — AERODYNAMICS & BOOST: GROUND EFFECT & TURBO POWER (Frames 111 - 170)
+           ==================================================================== -->
+      <section class="story-section align-right" id="history" data-start-frame="111" data-end-frame="170">
+        <div class="story-card">
+          <div class="card-step-badge">
+            <span class="pulse-dot"></span>
+            <span>Aerodynamics &amp; Boost &bull; 1977 to 1988</span>
+          </div>
+          <h2 class="card-title">GROUND EFFECT &amp; <span class="highlight-red">TURBO POWER</span></h2>
+          <p class="card-desc">
+            Inverted floor aero created crushing downforce, matched with extreme forced-induction power and the birth of composite chassis.
+          </p>
+          <div class="card-metrics-grid">
+            <div class="metric-item">
+              <span class="metric-value">1,400+ HP</span>
+              <span class="metric-label">BMW M12 Peak Output</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-value">1981</span>
+              <span class="metric-label">First Carbon Monocoque (MP4/1)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           03 — RACING HERITAGE: MILLIMETERS DECIDE CHAMPIONSHIPS (Frames 226 - 265)
+           ==================================================================== -->
+      <section class="story-section align-right" id="races" data-start-frame="226" data-end-frame="265">
+        <div class="story-card">
+          <div class="card-step-badge">
+            <span class="pulse-dot"></span>
+            <span>Racing Heritage &bull; 1,120+ Battles</span>
+          </div>
+          <h2 class="card-title">MILLIMETERS DECIDE <span class="highlight-red">CHAMPIONSHIPS</span></h2>
+          <p class="card-desc">
+            Monza flat out. Spa in the wet. Monaco’s unforgiving steel walls. Every lap, circuit record, and title-clinching overtake cataloged.
+          </p>
+          <div class="card-metrics-grid">
+            <div class="metric-item">
+              <span class="metric-value">1,125+</span>
+              <span class="metric-label">Official World Championship Races</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-value">378.03 KM/H</span>
+              <span class="metric-label">Record V-Max (Bottas, Baku 2016)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           04 — DRIVER SPOTLIGHT: LEWIS HAMILTON #44 (Frames 391 - 450)
+           ==================================================================== -->
+      <section class="story-section align-right" id="driver-spotlight" data-start-frame="391" data-end-frame="450">
+        <div class="story-card">
+          <h2 class="card-title">LEWIS <span class="highlight-red">HAMILTON</span></h2>
+          <p class="card-desc">
+            The benchmark of Formula 1 supremacy. Unrivaled speed, modern mastery, and the iconic #44 in Ferrari red.
+          </p>
+          
+          <div class="driver-profile-pill">
+            <div class="driver-number">#44</div>
+            <div class="driver-meta">
+              <h4>LEWIS HAMILTON &bull; GBR</h4>
+              <span>2007 to Present &bull; 7 World Championships &bull; 105 Wins &bull; 201 Podiums</span>
+            </div>
+          </div>
+
+          <div class="card-metrics-grid">
+            <div class="metric-item">
+              <span class="metric-value">105</span>
+              <span class="metric-label">RACE WINS</span>
+            </div>
+            <div class="metric-item">
+              <span class="metric-value">104</span>
+              <span class="metric-label">POLE POSITIONS</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           05 — FINAL CTA: READY TO EXPLORE THE DATA? (Frames 501 - 570)
+           ==================================================================== -->
+      <section class="story-section align-center" id="final-cta" data-start-frame="501" data-end-frame="570">
+        <div class="final-cta-card">
+          <div class="card-step-badge">
+            <span class="pulse-dot"></span>
+            <span>Destination &bull; Full Historical Access</span>
+          </div>
+          <h2 class="final-headline">READY TO EXPLORE THE DATA?</h2>
+          <p class="final-subtext">
+            Explore every driver, every race, every circuit and every era of Formula 1.
+          </p>
+          
+          <div>
+            <a href="/dashboard" class="primary-dashboard-cta" id="main-view-dashboard-btn">
+              <span>DASHBOARD</span>
+              <svg viewBox="0 0 24 24">
+                <path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-7.85-1.42 1.42 5.43 5.43H5v2z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       12 — PREMIUM MOTORSPORT FOOTER
+       ======================================================================== -->
+  <footer id="site-footer">
+    <div class="footer-statement">
+      EVERY LAP. EVERY DRIVER. EVERY ERA.
+    </div>
+    <p class="footer-disclaimer">
+      Unofficial Formula 1 historical analytics project. Not affiliated with Formula 1.
+    </p>
+  </footer>
+
+  <!-- Scroll Prompt Indicator -->
+  <div class="scroll-hint" id="scroll-prompt">
+    <span>SCROLL TO EXPLORE 75 YEARS OF F1 HISTORY</span>
+    <svg class="scroll-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M7 10l5 5 5-5"/>
+    </svg>
+  </div>
+
+
+
+  <!-- ========================================================================
+       TECHNICAL SPECIFICATIONS & ANALYTICS MODAL DRAWER
+       ======================================================================== -->
+  <div id="specs-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="specs-container">
+      <div class="specs-header">
+        <div>
+          <span class="brand-tag">FIA FORMULA 1 ARCHIVES &bull; 1950 to PRESENT</span>
+          <h2 class="specs-title" id="modal-title">F1 HISTORICAL &amp; TECHNICAL BLUEPRINT</h2>
+        </div>
+        <button class="specs-close-btn" id="specs-close-btn" aria-label="Close Specifications Modal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="specs-grid">
+        <div class="spec-card">
+          <span class="spec-val-big">571 FRAMES</span>
+          <span class="spec-title-label">Continuous Visual Archive</span>
+          <p class="spec-explanation">3 continuous sequential capture folders: 300 LiDAR scan frames + 14 manifesto frames + 257 Formula 1 reveal frames.</p>
+        </div>
+
+        <div class="spec-card">
+          <span class="spec-val-big" style="color: var(--f1-gold);">CAR #44</span>
+          <span class="spec-title-label">Lewis Hamilton &bull; 7x World Champion</span>
+          <p class="spec-explanation">Scuderia Ferrari challenger bearing #44, equipped with Shell, HP, and UniCredit technical partnerships.</p>
+        </div>
+
+        <div class="spec-card">
+          <span class="spec-val-big">1,125+ RACES</span>
+          <span class="spec-title-label">75 Seasons of Motorsport</span>
+          <p class="spec-explanation">Documenting every race from the inaugural British Grand Prix in 1950 to the modern 24-race world tour.</p>
+        </div>
+
+        <div class="spec-card">
+          <span class="spec-val-big" style="color: var(--f1-red);">&gt; 1,000 HP</span>
+          <span class="spec-title-label">1.6L V6 Turbo Hybrid Power Unit</span>
+          <p class="spec-explanation">MGU-K and MGU-H kinetic/heat energy recovery systems paired with direct-injection internal combustion delivering unprecedented efficiency.</p>
+        </div>
+
+        <div class="spec-card">
+          <span class="spec-val-big">34 CHAMPIONS</span>
+          <span class="spec-title-label">World Drivers' Champions</span>
+          <p class="spec-explanation">From Juan Manuel Fangio's five crowns to Schumacher and Hamilton's record-equaling seven World Championships.</p>
+        </div>
+
+        <div class="spec-card">
+          <span class="spec-val-big">16 TITLES</span>
+          <span class="spec-title-label">Ferrari All-Time Constructor Record</span>
+          <p class="spec-explanation">The sole constructor to contest every single World Championship season since 1950, securing 243+ Grand Prix victories.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=25"></script>
+</body>
+</html>
