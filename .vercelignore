@@ -1,0 +1,15 @@
+# Exclude backend Python runtime & dependencies from Vercel static deployment
+requirements.txt
+Procfile
+render.yaml
+.python-version
+app.py
+analysis/
+components/
+data/
+pages/
+scripts/
+services/
+utils/
+*.db
+*.py

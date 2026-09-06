@@ -1,6 +1,8 @@
 {
   "version": 2,
   "cleanUrls": false,
+  "buildCommand": "echo 'Static build complete'",
+  "installCommand": "echo 'Skipping backend Python installation on Vercel'",
   "rewrites": [
     {
       "source": "/dashboard",
