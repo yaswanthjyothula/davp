@@ -57,3 +57,5 @@ desktop.ini
 
 # Antigravity / Gemini artifacts
 .gemini/
+
+.vercel
