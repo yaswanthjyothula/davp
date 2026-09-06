@@ -1,25 +1,89 @@
 /* ==========================================================================
    FORMULA 1 HISTORICAL ANALYTICS PLATFORM // MOTORSPORT INTELLIGENCE
    Theme: Precision Engineering Workstation // Deep Graphite & Carbon
-   Typography: Barlow Condensed (Display) + Barlow (Interface) + JetBrains Mono (Telemetry)
+   Typography: Authentic Formula 1 Official Typography (Regular, Bold, Wide, Black)
    Strictly Zero Hyphens in UI Labels
    ========================================================================== */
 
-/* 1. Global Web Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
-/* Fallback local font registrations */
+/* 1. Official Formula 1 Font Registrations */
 @font-face {
   font-family: 'Formula1-Regular';
-  src: url('/assets/fonts/Formula1-Regular.woff') format('woff');
+  src: url('./fonts/Formula1-Regular.woff') format('woff'),
+       url('/assets/fonts/Formula1-Regular.woff') format('woff');
   font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'Formula1-Bold';
-  src: url('/assets/fonts/Formula1-Bold.woff') format('woff');
+  src: url('./fonts/Formula1-Bold.woff') format('woff'),
+       url('/assets/fonts/Formula1-Bold.woff') format('woff');
   font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1-Wide';
+  src: url('./fonts/Formula1-Wide.woff') format('woff'),
+       url('/assets/fonts/Formula1-Wide.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1-Black';
+  src: url('./fonts/Formula1-Black.woff') format('woff'),
+       url('/assets/fonts/Formula1-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('./fonts/Formula1-Regular.woff') format('woff'),
+       url('/assets/fonts/Formula1-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('./fonts/Formula1-Bold.woff') format('woff'),
+       url('/assets/fonts/Formula1-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('./fonts/Formula1-Wide.woff') format('woff'),
+       url('/assets/fonts/Formula1-Wide.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formula1';
+  src: url('./fonts/Formula1-Black.woff') format('woff'),
+       url('/assets/fonts/Formula1-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'F1 Torque';
+  src: url('./fonts/Formula1-Regular.woff') format('woff'),
+       url('/assets/fonts/Formula1-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
@@ -53,10 +117,10 @@
   --border-focus: rgba(255, 255, 255, 0.24);
   --border-red: rgba(225, 6, 0, 0.45);
   
-  /* Font Stacks */
-  --font-display: 'Barlow Condensed', 'Formula1-Bold', -apple-system, sans-serif;
-  --font-body: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+  /* Authentic Formula 1 Font Stacks */
+  --font-display: 'Formula1-Bold', 'Formula1-Wide', 'Formula1', sans-serif;
+  --font-body: 'Formula1-Regular', 'Formula1', sans-serif;
+  --font-mono: 'Formula1-Regular', 'Formula1', monospace;
   
   /* Shadows */
   --card-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
@@ -68,6 +132,18 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+*, *::before, *::after,
+html, body, button, input, select, textarea, div, span, p, a, 
+table, th, td, label {
+  font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6,
+.section-title, .navbar-title, .sidebar-brand-title, .kpi-value, .chart-title, .btn-text, .nav-label,
+.tab-button, .kpi-tag, .chip-metric, .f1-card-title {
+  font-family: var(--font-display);
 }
 
 html {

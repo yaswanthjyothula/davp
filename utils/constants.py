@@ -3,12 +3,10 @@ Constants for F1 Historical Analytics Platform.
 Zero hyphens in all labels, strings, and era definitions.
 """
 
+# Official Formula 1 Motorsport Typography Stacks
 FONT_FAMILY = "Formula1-Regular, Formula1, sans-serif"
-
-# Dark Motorsport Palette & Design Tokens
-FONT_FAMILY = "'Barlow', 'Formula1', -apple-system, BlinkMacSystemFont, sans-serif"
-FONT_DISPLAY = "'Barlow Condensed', 'Formula1-Bold', sans-serif"
-FONT_MONO = "'JetBrains Mono', 'Roboto Mono', monospace"
+FONT_DISPLAY = "Formula1-Bold, Formula1-Wide, Formula1, sans-serif"
+FONT_MONO = "Formula1-Regular, Formula1, monospace"
 
 # Deep Graphite Workstation Palette
 COLOR_BG_DARK = "#08090A"
