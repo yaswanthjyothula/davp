@@ -1,7 +1,6 @@
 """
 Data Explorer Page for F1 Historical Analytics.
-Advanced relational table explorer with dynamic CSV exports.
-Demonstrates full Pandas and SQL manipulation capabilities.
+Theme: Relational Database Telemetry Explorer with Dynamic CSV Export.
 Strictly zero hyphens in any labels, text, or table cells.
 """
 
@@ -12,14 +11,14 @@ from components.tables import create_f1_table
 from utils.helpers import remove_hyphens
 
 TABLE_OPTIONS = [
-    {'label': 'Drivers (Driver Summary)', 'value': 'driver_summary'},
-    {'label': 'Constructors (Constructor Summary)', 'value': 'constructor_summary'},
-    {'label': 'Circuits (Circuit Summary)', 'value': 'circuit_summary'},
-    {'label': 'Races (Historical Calendar)', 'value': 'races'},
-    {'label': 'Race Results (All Time)', 'value': 'results'},
-    {'label': 'Qualifying Results', 'value': 'qualifying'},
-    {'label': 'Driver Standings', 'value': 'driver_standings'},
-    {'label': 'Constructor Standings', 'value': 'constructor_standings'},
+    {'label': 'Drivers (driver summary)', 'value': 'driver_summary'},
+    {'label': 'Constructors (constructor summary)', 'value': 'constructor_summary'},
+    {'label': 'Circuits (circuit summary)', 'value': 'circuit_summary'},
+    {'label': 'Races (historical calendar)', 'value': 'races'},
+    {'label': 'Race Results (all time entries)', 'value': 'results'},
+    {'label': 'Qualifying Telemetry (single lap)', 'value': 'qualifying'},
+    {'label': 'Driver Standings Archive', 'value': 'driver_standings'},
+    {'label': 'Constructor Standings Archive', 'value': 'constructor_standings'},
     {'label': 'Pit Stops Telemetry', 'value': 'pit_stops'},
     {'label': 'Sprint Race Results', 'value': 'sprint_results'},
 ]
@@ -31,23 +30,24 @@ def layout():
     return html.Div(
         className="page-body",
         children=[
+            # Header
             html.Div(
                 className="section-header",
                 children=[
                     html.H1("RELATIONAL DATA EXPLORER", className="section-title"),
-                    html.P("Direct relational query access to raw and processed historical datasets with dynamic CSV export.", className="section-subtitle")
+                    html.P("Direct relational query inspection across all historical SQLite tables with dynamic schema viewing and instant CSV export.", className="section-subtitle")
                 ]
             ),
             
-            # Selectors
+            # Selectors bar
             html.Div(
                 className="filter-bar",
                 children=[
                     html.Div(
                         className="filter-group",
-                        style={"maxWidth": "350px"},
+                        style={"flex": "1 1 360px"},
                         children=[
-                            html.Label("Select Relational Table", className="filter-label"),
+                            html.Label("Select Relational Dataset Table", className="filter-label"),
                             dcc.Dropdown(
                                 id="explorer-table-selector",
                                 options=TABLE_OPTIONS,
@@ -59,8 +59,9 @@ def layout():
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 200px"},
                         children=[
-                            html.Label("Max Records", className="filter-label"),
+                            html.Label("Maximum Record Limit", className="filter-label"),
                             dcc.Dropdown(
                                 id="explorer-limit-selector",
                                 options=[
@@ -78,11 +79,19 @@ def layout():
                 ]
             ),
             
-            # Table Container
+            # Table Container Card
             html.Div(
                 className="chart-card",
-                id="explorer-table-container",
-                children=[create_f1_table(initial_df, table_id="explorer-table", page_size=20, export_btn_id="btn-export-explorer")]
+                children=[
+                    html.Div(
+                        className="chart-header",
+                        children=[html.H3("RAW & PROCESSED RELATIONAL TABLE VIEWER", className="chart-title")]
+                    ),
+                    html.Div(
+                        id="explorer-table-container",
+                        children=[create_f1_table(initial_df, table_id="explorer-table", page_size=20, export_btn_id="btn-export-explorer")]
+                    )
+                ]
             )
         ]
     )
@@ -94,7 +103,7 @@ def layout():
 )
 def update_explorer_table(table_name, limit):
     if not table_name:
-        return html.Div("Please select a table.")
+        return html.Div("Please select a table.", className="empty-state-desc")
     loader = DataLoader.get_instance()
     sql = f"SELECT * FROM {table_name} LIMIT {int(limit)}"
     df = loader.query(sql)

@@ -1,6 +1,6 @@
 """
 Races Page for F1 Historical Analytics.
-Filterable historical race calendar with 1,125+ Grands Prix.
+Theme: Filterable Historical Race Archive with 1,125+ Grands Prix.
 Strictly zero hyphens in any labels, text, or table cells.
 """
 
@@ -13,8 +13,8 @@ from utils.helpers import remove_hyphens
 def layout():
     loader = DataLoader.get_instance()
     seasons = loader.get_seasons_list()
-    season_options = [{'label': 'All Seasons', 'value': 'ALL'}] + [
-        {'label': str(s), 'value': str(s)} for s in seasons
+    season_options = [{'label': 'All Seasons (1950 to 2026)', 'value': 'ALL'}] + [
+        {'label': f"Season {s}", 'value': str(s)} for s in seasons
     ]
     
     circuits = loader.get_circuits_list()
@@ -40,20 +40,22 @@ def layout():
     return html.Div(
         className="page-body",
         children=[
+            # Header
             html.Div(
                 className="section-header",
                 children=[
                     html.H1("HISTORICAL RACE ARCHIVE", className="section-title"),
-                    html.P("Every official Formula 1 World Championship Grand Prix from 1950 to present day.", className="section-subtitle")
+                    html.P("Official classification and telemetry records for 1,125+ Grands Prix across 75 Formula 1 seasons.", className="section-subtitle")
                 ]
             ),
             
-            # Filters
+            # Filter bar
             html.Div(
                 className="filter-bar",
                 children=[
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 200px"},
                         children=[
                             html.Label("Season Filter", className="filter-label"),
                             dcc.Dropdown(
@@ -67,8 +69,9 @@ def layout():
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 240px"},
                         children=[
-                            html.Label("Circuit Filter", className="filter-label"),
+                            html.Label("Circuit Venue", className="filter-label"),
                             dcc.Dropdown(
                                 id="races-circuit-filter",
                                 options=circ_options,
@@ -80,25 +83,36 @@ def layout():
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 220px"},
                         children=[
                             html.Label("Search Grand Prix", className="filter-label"),
                             dcc.Input(
                                 id="races-search",
                                 type="text",
-                                placeholder="Search race name...",
+                                placeholder="Search Grand Prix name...",
                                 className="dash-dropdown",
-                                style={"padding": "8px 12px", "width": "100%"}
+                                style={"width": "100%"}
                             )
                         ]
                     ),
                 ]
             ),
             
-            # Races Table
+            # Races Table Card
             html.Div(
                 className="chart-card",
-                id="races-table-container",
-                children=[create_f1_table(initial_races, table_id="races-table", page_size=20, export_btn_id="btn-export-races")]
+                children=[
+                    html.Div(
+                        className="chart-header",
+                        children=[
+                            html.H3("WORLD CHAMPIONSHIP GRAND PRIX CLASSIFICATION ARCHIVE", className="chart-title")
+                        ]
+                    ),
+                    html.Div(
+                        id="races-table-container",
+                        children=[create_f1_table(initial_races, table_id="races-table", page_size=20, export_btn_id="btn-export-races")]
+                    )
+                ]
             )
         ]
     )

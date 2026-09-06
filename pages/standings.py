@@ -1,6 +1,6 @@
 """
 Standings Page for F1 Historical Analytics.
-Championship standings explorer for Drivers and Constructors.
+Theme: World Championship Standings (Drivers & Constructors).
 Strictly zero hyphens in any labels, text, or table cells.
 """
 
@@ -15,21 +15,22 @@ from utils.helpers import remove_hyphens
 def layout():
     loader = DataLoader.get_instance()
     seasons = loader.get_seasons_list()
-    season_options = [{'label': str(s), 'value': s} for s in seasons]
+    season_options = [{'label': f"Season {s}", 'value': s} for s in seasons]
     default_season = seasons[0] if seasons else 2024
     
     return html.Div(
         className="page-body",
         children=[
+            # Header
             html.Div(
                 className="section-header",
                 children=[
                     html.H1("WORLD CHAMPIONSHIP STANDINGS", className="section-title"),
-                    html.P("Official World Championship points standings for every season since 1950.", className="section-subtitle")
+                    html.P("Official World Championship points standings for Drivers and Constructors for every season since 1950.", className="section-subtitle")
                 ]
             ),
             
-            # Selectors
+            # Selectors bar
             html.Div(
                 className="filter-bar",
                 children=[
@@ -49,14 +50,14 @@ def layout():
                     ),
                     html.Div(
                         className="filter-group",
-                        style={"maxWidth": "250px"},
+                        style={"maxWidth": "260px"},
                         children=[
                             html.Label("Championship Category", className="filter-label"),
                             dcc.Dropdown(
                                 id="standings-type-selector",
                                 options=[
-                                    {'label': 'Driver Championship', 'value': 'driver'},
-                                    {'label': 'Constructor Championship', 'value': 'constructor'},
+                                    {'label': 'Drivers World Championship', 'value': 'driver'},
+                                    {'label': 'Constructors World Championship', 'value': 'constructor'},
                                 ],
                                 value='driver',
                                 clearable=False,
@@ -79,7 +80,7 @@ def layout():
 )
 def render_standings_content(season, champ_type):
     if not season:
-        return html.Div("Please select a season.", style={"color": "#9FA6B2"})
+        return html.Div("Please select a season.", className="empty-state-desc")
         
     loader = DataLoader.get_instance()
     if champ_type == 'driver':
@@ -90,7 +91,7 @@ def render_standings_content(season, champ_type):
         ORDER BY position ASC
         """
         df = loader.query(sql, [int(season)])
-        title = f"{season} FIA Formula One Drivers World Championship Standings"
+        title = f"{season} FIA FORMULA ONE DRIVERS WORLD CHAMPIONSHIP STANDINGS"
         chart_color = COLOR_F1_RED
         x_col = 'driver'
     else:
@@ -101,32 +102,45 @@ def render_standings_content(season, champ_type):
         ORDER BY position ASC
         """
         df = loader.query(sql, [int(season)])
-        title = f"{season} FIA Formula One Constructors World Championship Standings"
+        title = f"{season} FIA FORMULA ONE CONSTRUCTORS WORLD CHAMPIONSHIP STANDINGS"
         chart_color = COLOR_F1_CYAN
         x_col = 'constructor'
         
     if df.empty:
-        return html.Div("No standings records for this season.", style={"color": "#9FA6B2"})
+        return html.Div(
+            className="empty-state-container",
+            children=[
+                html.Div("NO STANDINGS DATA RECORDED", className="empty-state-title"),
+                html.Div(f"No official {champ_type} championship standings recorded for season {season}.", className="empty-state-desc")
+            ]
+        )
         
     # Top 10 chart
     top_df = df.head(10)
-    fig = create_bar_chart(top_df, x='points', y=x_col, title=f"Top 10 Points Classification ({season})", orientation='h', color=chart_color)
+    fig = create_bar_chart(
+        top_df, x='points', y=x_col, 
+        title=f"TOP 10 CHAMPIONSHIP POINTS CLASSIFICATION ({season})", 
+        orientation='h', color=chart_color, height=360
+    )
     
     table_elem = create_f1_table(df, table_id="standings-table", page_size=25, export_btn_id="btn-export-standings")
     
     return html.Div(
         children=[
-            # Points Chart
+            # Points Chart Card
             html.Div(
                 className="chart-card",
                 children=[dcc.Graph(figure=fig, config={'displayModeBar': False, 'scrollZoom': False})]
             ),
             
-            # Standings Table
+            # Standings Table Card
             html.Div(
                 className="chart-card",
                 children=[
-                    html.Div(className="chart-header", children=[html.H3(remove_hyphens(title), className="chart-title")]),
+                    html.Div(
+                        className="chart-header", 
+                        children=[html.H3(remove_hyphens(title), className="chart-title")]
+                    ),
                     table_elem
                 ]
             )

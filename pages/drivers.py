@@ -1,5 +1,6 @@
 """
 Drivers Database Page for F1 Historical Analytics.
+Theme: Comprehensive Driver Historical Database & Directory.
 Strictly zero hyphens in any labels, text, or table cells.
 """
 
@@ -21,11 +22,12 @@ def layout():
     return html.Div(
         className="page-body",
         children=[
+            # Header
             html.Div(
                 className="section-header",
                 children=[
                     html.H1("HISTORICAL DRIVERS DATABASE", className="section-title"),
-                    html.P("Complete historical record of every driver to enter a Formula 1 World Championship Grand Prix.", className="section-subtitle")
+                    html.P("Complete historical directory of all 861 drivers to enter an official FIA Formula One World Championship Grand Prix.", className="section-subtitle")
                 ]
             ),
             
@@ -35,19 +37,21 @@ def layout():
                 children=[
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 220px"},
                         children=[
                             html.Label("Search Driver", className="filter-label"),
                             dcc.Input(
                                 id="drivers-search",
                                 type="text",
-                                placeholder="Search by name or code...",
+                                placeholder="Search by driver name or code...",
                                 className="dash-dropdown",
-                                style={"padding": "8px 12px", "width": "100%"}
+                                style={"width": "100%"}
                             )
                         ]
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 180px"},
                         children=[
                             html.Label("Nationality", className="filter-label"),
                             dcc.Dropdown(
@@ -61,12 +65,13 @@ def layout():
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 160px"},
                         children=[
-                            html.Label("Minimum Wins", className="filter-label"),
+                            html.Label("Minimum Victories", className="filter-label"),
                             dcc.Dropdown(
                                 id="drivers-min-wins",
                                 options=[
-                                    {'label': 'Any Wins', 'value': 0},
+                                    {'label': 'Any Victories', 'value': 0},
                                     {'label': '1+ Wins', 'value': 1},
                                     {'label': '5+ Wins', 'value': 5},
                                     {'label': '10+ Wins', 'value': 10},
@@ -81,6 +86,7 @@ def layout():
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 180px"},
                         children=[
                             html.Label("Championship Filter", className="filter-label"),
                             dcc.Dropdown(
@@ -98,11 +104,21 @@ def layout():
                 ]
             ),
             
-            # Table Container
+            # Table Container Card
             html.Div(
                 className="chart-card",
-                id="drivers-table-container",
-                children=[create_f1_table(initial_df, table_id="drivers-table", page_size=20, export_btn_id="btn-export-drivers")]
+                children=[
+                    html.Div(
+                        className="chart-header",
+                        children=[
+                            html.H3("OFFICIAL DRIVER CLASSIFICATION DIRECTORY", className="chart-title")
+                        ]
+                    ),
+                    html.Div(
+                        id="drivers-table-container",
+                        children=[create_f1_table(initial_df, table_id="drivers-table", page_size=20, export_btn_id="btn-export-drivers")]
+                    )
+                ]
             )
         ]
     )

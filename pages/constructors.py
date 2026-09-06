@@ -1,6 +1,6 @@
 """
 Constructors Page for F1 Historical Analytics.
-Historical database of Formula 1 teams.
+Theme: Comprehensive Historical Constructors & Teams Directory.
 Strictly zero hyphens in any labels, text, or table cells.
 """
 
@@ -22,33 +22,36 @@ def layout():
     return html.Div(
         className="page-body",
         children=[
+            # Header
             html.Div(
                 className="section-header",
                 children=[
                     html.H1("HISTORICAL CONSTRUCTORS DATABASE", className="section-title"),
-                    html.P("Complete archive of every constructor and team to compete in Formula 1 World Championship history.", className="section-subtitle")
+                    html.P("Complete archive of every constructor, privateer, and works team to compete in Formula 1 World Championship history.", className="section-subtitle")
                 ]
             ),
             
-            # Filters
+            # Filter bar
             html.Div(
                 className="filter-bar",
                 children=[
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 240px"},
                         children=[
                             html.Label("Search Constructor", className="filter-label"),
                             dcc.Input(
                                 id="const-search",
                                 type="text",
-                                placeholder="Search team name...",
+                                placeholder="Search team or marque name...",
                                 className="dash-dropdown",
-                                style={"padding": "8px 12px", "width": "100%"}
+                                style={"width": "100%"}
                             )
                         ]
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 200px"},
                         children=[
                             html.Label("Nationality", className="filter-label"),
                             dcc.Dropdown(
@@ -62,6 +65,7 @@ def layout():
                     ),
                     html.Div(
                         className="filter-group",
+                        style={"flex": "1 1 200px"},
                         children=[
                             html.Label("Championship Filter", className="filter-label"),
                             dcc.Dropdown(
@@ -79,11 +83,21 @@ def layout():
                 ]
             ),
             
-            # Table
+            # Constructors Table Card
             html.Div(
                 className="chart-card",
-                id="const-table-container",
-                children=[create_f1_table(initial_df, table_id="const-table", page_size=20, export_btn_id="btn-export-constructors")]
+                children=[
+                    html.Div(
+                        className="chart-header",
+                        children=[
+                            html.H3("OFFICIAL CONSTRUCTORS CHAMPIONSHIP DIRECTORY", className="chart-title")
+                        ]
+                    ),
+                    html.Div(
+                        id="const-table-container",
+                        children=[create_f1_table(initial_df, table_id="const-table", page_size=20, export_btn_id="btn-export-constructors")]
+                    )
+                ]
             )
         ]
     )
