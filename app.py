@@ -32,7 +32,10 @@ server = Flask(__name__, static_folder=BASE_DIR)
 server.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 @server.after_request
-def add_cache_control(response):
+def add_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = '*'
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '0'
