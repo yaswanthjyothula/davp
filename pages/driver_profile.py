@@ -149,12 +149,13 @@ def render_driver_profile(driver_id):
                         children=[
                             html.H2(
                                 remove_hyphens(summary['name']), 
+                                className="driver-name-title",
                                 style={
                                     "fontFamily": "var(--font-display)", 
-                                    "fontSize": "34px", 
+                                    "fontSize": "36px", 
                                     "fontWeight": "900", 
                                     "letterSpacing": "1.5px", 
-                                    "color": "var(--f1-red)", 
+                                    "color": "#E10600", 
                                     "textTransform": "uppercase",
                                     "lineHeight": "1.1",
                                     "marginBottom": "8px"

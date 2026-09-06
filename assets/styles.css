@@ -844,11 +844,22 @@ input.dash-dropdown::placeholder {
   font-weight: 700 !important;
 }
 
+.dash-spreadsheet td.cell--selected div.dash-cell-value,
+.dash-spreadsheet td.focused div.dash-cell-value,
+.dash-spreadsheet tr.selected td div.dash-cell-value {
+  color: #000000 !important;
+}
+
 .dash-spreadsheet td.cell--selected input,
 .dash-spreadsheet td.focused input,
 .dash-spreadsheet tr.selected td input {
   color: #000000 !important;
   background-color: #FFFFFF !important;
+}
+
+/* Driver Profile Hero Title in F1 Logo Red */
+.driver-name-title {
+  color: #E10600 !important;
 }
 
 /* Table Pagination Controls */

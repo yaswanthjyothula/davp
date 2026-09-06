@@ -29,6 +29,14 @@ from pages import (
 
 # 1. Initialize Flask Server
 server = Flask(__name__, static_folder=BASE_DIR)
+server.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+@server.after_request
+def add_cache_control(response):
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @server.route('/')
 def serve_landing_page():
