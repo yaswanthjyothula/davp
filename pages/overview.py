@@ -29,7 +29,8 @@ def layout():
     top_drivers_fig = create_bar_chart(
         top_drivers, x='wins', y='name', 
         title="ALL TIME GRAND PRIX VICTORIES BY DRIVER", 
-        orientation='h', color=COLOR_F1_RED, height=380
+        orientation='h', color=COLOR_F1_RED, height=380,
+        x_title="Grand Prix Victories", y_title="Driver"
     )
     
     # Wins by constructor
@@ -37,7 +38,8 @@ def layout():
     top_const_fig = create_bar_chart(
         top_const, x='wins', y='name', 
         title="ALL TIME CONSTRUCTOR WORLD CHAMPIONSHIP VICTORIES", 
-        orientation='h', color=COLOR_F1_CYAN, height=380
+        orientation='h', color=COLOR_F1_CYAN, height=380,
+        x_title="Grand Prix Victories", y_title="Constructor Team"
     )
     
     # Races per season
