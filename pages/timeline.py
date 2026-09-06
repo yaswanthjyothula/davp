@@ -143,8 +143,8 @@ def render_era_content(selected_era_name):
             html.Div(
                 style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "20px"},
                 children=[
-                    html.Div(className="chart-card", children=[dcc.Graph(figure=drivers_fig, config={'displayModeBar': False, 'scrollZoom': False})]),
-                    html.Div(className="chart-card", children=[dcc.Graph(figure=const_fig, config={'displayModeBar': False, 'scrollZoom': False})]),
+                    html.Div(className="chart-card", children=[dcc.Graph(figure=drivers_fig)]),
+                    html.Div(className="chart-card", children=[dcc.Graph(figure=const_fig)]),
                 ]
             ),
             

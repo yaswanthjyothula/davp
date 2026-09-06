@@ -141,20 +141,12 @@ def render_driver_profile(driver_id):
                     "justifyContent": "space-between", 
                     "padding": "26px 32px",
                     "background": "linear-gradient(135deg, rgba(20, 23, 28, 0.95) 0%, rgba(14, 16, 19, 0.98) 100%)",
-                    "marginBottom": "20px"
+                    "marginBottom": "20px",
+                    "border": "1px solid rgba(225, 6, 0, 0.25)"
                 },
                 children=[
                     html.Div(
                         children=[
-                            html.Div(
-                                style={"display": "flex", "alignItems": "center", "gap": "10px", "marginBottom": "6px"},
-                                children=[
-                                    html.Span(remove_hyphens(summary['nationality']), style={"fontFamily": "var(--font-mono)", "fontSize": "11px", "color": "var(--f1-red)", "fontWeight": "700", "letterSpacing": "1px", "textTransform": "uppercase"}),
-                                    html.Span("•", style={"color": "var(--text-dim)", "fontSize": "10px"}),
-                                    html.Span(f"ACTIVE: {remove_hyphens(summary['career_years'])}", style={"fontFamily": "var(--font-mono)", "fontSize": "11px", "color": "var(--text-secondary)", "letterSpacing": "0.5px"}),
-                                    html.Span(code_str, style={"fontFamily": "var(--font-mono)", "fontSize": "11px", "color": "var(--text-muted)"}),
-                                ]
-                            ),
                             html.H2(
                                 remove_hyphens(summary['name']), 
                                 style={
@@ -164,19 +156,29 @@ def render_driver_profile(driver_id):
                                     "letterSpacing": "1.5px", 
                                     "color": "var(--f1-red)", 
                                     "textTransform": "uppercase",
-                                    "lineHeight": "1.1"
+                                    "lineHeight": "1.1",
+                                    "marginBottom": "8px"
                                 }
                             ),
+                            html.Div(
+                                style={"color": "var(--text-secondary)", "fontSize": "12.5px", "display": "flex", "alignItems": "center", "gap": "16px", "flexWrap": "wrap"},
+                                children=[
+                                    html.Span(f"Nationality: {remove_hyphens(summary['nationality'])}", style={"fontFamily": "var(--font-mono)", "color": "var(--text-secondary)"}),
+                                    html.Span(f"Car Number: {summary['number']}", style={"fontFamily": "var(--font-mono)", "color": "var(--text-secondary)"}),
+                                    html.Span(f"Career: {remove_hyphens(summary['career_years'])}", style={"fontFamily": "var(--font-mono)", "color": "var(--text-secondary)"}),
+                                    html.Span(f"Code: {summary['code']}", style={"fontFamily": "var(--font-mono)", "color": "var(--text-secondary)"}),
+                                ]
+                            )
                         ]
                     ),
-                    # Large Watermark Driver Car Number
+                    # Driver Car Number in F1 Red
                     html.Div(
                         style={
                             "fontFamily": "var(--font-display)", 
                             "fontSize": "64px", 
                             "fontWeight": "900", 
                             "color": "var(--f1-red)", 
-                            "opacity": "0.22",
+                            "opacity": "0.85",
                             "userSelect": "none",
                             "letterSpacing": "1px"
                         },
