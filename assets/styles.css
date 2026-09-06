@@ -827,6 +827,50 @@ input.dash-dropdown::placeholder {
   background-color: rgba(225, 6, 0, 0.08) !important;
 }
 
+/* Eliminate white active/selected row or cell in DataTable */
+.dash-spreadsheet td.cell--selected,
+.dash-spreadsheet td.focused,
+.dash-spreadsheet td.cell--selected-parent,
+.dash-spreadsheet tr.selected td,
+.dash-spreadsheet tr.selected,
+.dash-spreadsheet .dash-cell.focused,
+.dash-spreadsheet .dash-cell.cell--selected,
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td.focused,
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner td.cell--selected,
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tr.selected,
+.dash-table-container .dash-spreadsheet-container .dash-spreadsheet-inner tr.selected td {
+  background-color: #1A1E24 !important;
+  color: #FFFFFF !important;
+  outline: none !important;
+}
+
+.dash-spreadsheet td.cell--selected input,
+.dash-spreadsheet td.focused input,
+.dash-spreadsheet input.dash-filter--case--sensitive,
+.dash-spreadsheet input.dash-filter--case--insensitive {
+  background-color: #16191F !important;
+  color: #FFFFFF !important;
+}
+
+/* Disable Plotly Modebar Completely */
+.modebar-container,
+.modebar,
+.modebar--hover,
+.modebar-btn,
+.modebar-group {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure smooth page scrolling over charts */
+.dash-graph,
+.plotly-graph-div,
+.main-svg {
+  touch-action: pan-y !important;
+}
+
 /* Table Pagination Controls */
 .dash-spreadsheet-container .previous-next-container {
   background-color: #0E1013 !important;

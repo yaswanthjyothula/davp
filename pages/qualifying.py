@@ -58,15 +58,15 @@ def layout():
             html.Div(
                 style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "20px"},
                 children=[
-                    html.Div(className="chart-card", children=[dcc.Graph(figure=poles_fig)]),
-                    html.Div(className="chart-card", children=[dcc.Graph(figure=conv_fig)]),
+                    html.Div(className="chart-card", children=[dcc.Graph(figure=poles_fig, config={'displayModeBar': False, 'scrollZoom': False})]),
+                    html.Div(className="chart-card", children=[dcc.Graph(figure=conv_fig, config={'displayModeBar': False, 'scrollZoom': False})]),
                 ]
             ),
             
             # Grid vs Finish Correlation Chart
             html.Div(
                 className="chart-card",
-                children=[dcc.Graph(figure=scatter_fig)]
+                children=[dcc.Graph(figure=scatter_fig, config={'displayModeBar': False, 'scrollZoom': False})]
             ),
             
             # Conversion Table

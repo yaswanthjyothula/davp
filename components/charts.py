@@ -68,6 +68,7 @@ def apply_f1_theme(fig, title="", height=360, x_title=None, y_title=None):
     
     fig.update_layout(
         template=PLOTLY_TEMPLATE,
+        dragmode=False,
         title={
             'text': clean_title,
             'font': {'family': FONT_DISPLAY, 'size': 13.5, 'color': COLOR_TEXT_WHITE},
@@ -94,7 +95,8 @@ def apply_f1_theme(fig, title="", height=360, x_title=None, y_title=None):
         linecolor='rgba(255, 255, 255, 0.12)',
         tickfont=dict(family=FONT_MONO, size=10, color=COLOR_TEXT_SECONDARY),
         showgrid=True,
-        zeroline=False
+        zeroline=False,
+        fixedrange=True
     )
     if x_title:
         clean_x = remove_hyphens(str(x_title)).upper()
@@ -110,7 +112,8 @@ def apply_f1_theme(fig, title="", height=360, x_title=None, y_title=None):
         linecolor='rgba(255, 255, 255, 0.12)',
         tickfont=dict(family=FONT_MONO, size=10, color=COLOR_TEXT_SECONDARY),
         showgrid=True,
-        zeroline=False
+        zeroline=False,
+        fixedrange=True
     )
     if y_title:
         clean_y = remove_hyphens(str(y_title)).upper()

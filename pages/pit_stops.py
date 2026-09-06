@@ -62,8 +62,8 @@ def layout():
             html.Div(
                 style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "20px"},
                 children=[
-                    html.Div(className="chart-card", children=[dcc.Graph(figure=const_fig)]),
-                    html.Div(className="chart-card", children=[dcc.Graph(figure=season_fig)]),
+                    html.Div(className="chart-card", children=[dcc.Graph(figure=const_fig, config={'displayModeBar': False, 'scrollZoom': False})]),
+                    html.Div(className="chart-card", children=[dcc.Graph(figure=season_fig, config={'displayModeBar': False, 'scrollZoom': False})]),
                 ]
             ),
             

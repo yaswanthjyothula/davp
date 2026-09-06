@@ -55,6 +55,19 @@ def create_f1_table(df, table_id="f1-table", page_size=15, export_btn_id=None):
             'if': {'row_index': 'even'},
             'backgroundColor': '#0C0E11',
         },
+        # Override active and selected states so clicking never turns white
+        {
+            'if': {'state': 'active'},
+            'backgroundColor': '#1A1E24 !important',
+            'border': '1px solid rgba(225, 6, 0, 0.45) !important',
+            'color': '#FFFFFF !important',
+        },
+        {
+            'if': {'state': 'selected'},
+            'backgroundColor': '#1A1E24 !important',
+            'border': '1px solid rgba(225, 6, 0, 0.45) !important',
+            'color': '#FFFFFF !important',
+        },
         # Highlight winner / P1 rows subtly
         {
             'if': {
@@ -72,6 +85,9 @@ def create_f1_table(df, table_id="f1-table", page_size=15, export_btn_id=None):
         page_size=page_size,
         sort_action='native',
         filter_action='native',
+        cell_selectable=False,
+        selected_cells=[],
+        selected_rows=[],
         style_table={
             'overflowX': 'auto',
             'borderRadius': '6px',

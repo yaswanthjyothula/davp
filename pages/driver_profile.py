@@ -162,7 +162,7 @@ def render_driver_profile(driver_id):
                                     "fontSize": "34px", 
                                     "fontWeight": "900", 
                                     "letterSpacing": "1.5px", 
-                                    "color": "var(--text-white)", 
+                                    "color": "var(--f1-red)", 
                                     "textTransform": "uppercase",
                                     "lineHeight": "1.1"
                                 }

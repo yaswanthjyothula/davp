@@ -103,7 +103,7 @@ def render_circuit_profile(circuit_id):
             # Wins Chart
             html.Div(
                 className="chart-card",
-                children=[dcc.Graph(figure=wins_fig)]
+                children=[dcc.Graph(figure=wins_fig, config={'displayModeBar': False, 'scrollZoom': False})]
             ),
             
             # Historical Winners Table
